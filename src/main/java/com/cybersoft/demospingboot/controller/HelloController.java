@@ -1,9 +1,15 @@
 package com.cybersoft.demospingboot.controller;
 
+import com.cybersoft.demospingboot.entity.Student;
+import com.cybersoft.demospingboot.entity.UsersEntity;
 import com.cybersoft.demospingboot.payload.request.LoginRequest;
+import com.cybersoft.demospingboot.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Controller :  Dùng để định nghĩa đường dẫn mà nội dung đường dẫn trả ra html
@@ -21,9 +27,16 @@ public class HelloController {
     // tham số đóng vai trò như là một đường dẫn : @PathVariable
     // tham số ngầm là đối tượng : @ResquestBody
 
+    @Autowired
+    private Student student;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("")
-    public String hello(@RequestParam String hoten, @RequestParam int tuoi) {
-        return "Hello Sping boot " + hoten +" - tuoi " + tuoi;
+    public ResponseEntity<?> hello() {
+        List<UsersEntity> list = userRepository.findAll();
+        return new ResponseEntity<>(list,HttpStatus.OK);
 
     }
 
