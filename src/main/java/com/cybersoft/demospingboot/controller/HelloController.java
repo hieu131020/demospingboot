@@ -1,8 +1,9 @@
 package com.cybersoft.demospingboot.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.cybersoft.demospingboot.payload.request.LoginRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Controller :  Dùng để định nghĩa đường dẫn mà nội dung đường dẫn trả ra html
@@ -15,14 +16,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/hello")
 public class HelloController {
 
+    // tham số truỳen trên trình duyệt : @RequestParam
+    // tham số truyền ngầm : @RequestParam
+    // tham số đóng vai trò như là một đường dẫn : @PathVariable
+    // tham số ngầm là đối tượng : @ResquestBody
+
     @GetMapping("")
-    public String hello(){
-        return "Hello Sping boot";
+    public String hello(@RequestParam String hoten, @RequestParam int tuoi) {
+        return "Hello Sping boot " + hoten +" - tuoi " + tuoi;
+
     }
 
-    @GetMapping("/cybersoft")
-    public String helloCybersoft(){
-        return "Hello Sping Cybersoft";
+    @PostMapping("/cybersoft")
+    public String helloCybersoft(@RequestBody LoginRequest loginRequest){
+        return "Hello Sping Cybersoft " + loginRequest.getUsername() + " - " + loginRequest.getPassword();
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable int id){
+
+        return new ResponseEntity<>("Update " + id, HttpStatus.OK);
+    }
+
 
 }
